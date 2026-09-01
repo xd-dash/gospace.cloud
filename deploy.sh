@@ -22,6 +22,7 @@ GOSPACE_DIR="$WORKSPACE/gospace"
 rm -rf "$BUNDLE"
 mkdir -p "$BUNDLE/bin"
 cp -a "$PYSPACE_DIR"/. "$BUNDLE/"
+rm -rf "$BUNDLE/.git" "$BUNDLE/.github" "$BUNDLE/tests"
 
 (
   cd "$GOSPACE_DIR/gospace"
@@ -29,6 +30,12 @@ cp -a "$PYSPACE_DIR"/. "$BUNDLE/"
     go build -trimpath -o "$BUNDLE/bin/gospace" ./cmd/api
 )
 chmod 0755 "$BUNDLE/bin/gospace"
+
+test -f "$BUNDLE/main.py"
+test -f "$BUNDLE/requirements.txt"
+test -f "$BUNDLE/pyproject.toml"
+test -d "$BUNDLE/src/pyspace"
+test -x "$BUNDLE/bin/gospace"
 
 # The Python function is loaded normally. Gospace is registered at function
 # initialization, but ProcessSupervisor starts the binary only on the first
